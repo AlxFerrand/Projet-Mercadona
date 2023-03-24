@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  postgresdb:
+    image: postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=$POSTGRESDB_PASSWORD
+      - POSTGRES_DB=$POSTGRESDB_DB
+    ports:
+      - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
+    volumes:
+      - ../dumpBaseForDocker:/docker-entrypoint-initdb.d
+  app:
+    depends_on:
+      - postgresdb
+    build: .
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+      "spring.datasource.url": "jdbc:postgresql://postgresdb:$POSTGRES_DOCKER_PORT/$POSTGRESDB_DB",
+      "spring.datasource.username": "$POSTGRESDB_USER",
+      "spring.datasource.password": "$POSTGRESDB_PASSWORD"
+      }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+

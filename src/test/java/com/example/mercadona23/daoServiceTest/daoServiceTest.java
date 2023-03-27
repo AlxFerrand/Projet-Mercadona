@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CategoriesDaoTest {
+public class daoServiceTest {
 
     @Autowired
     private CategoriesDao categoriesDao = new CategoriesDao();

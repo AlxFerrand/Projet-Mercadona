@@ -5,7 +5,7 @@
 -- Dumped from database version 15.2
 -- Dumped by pg_dump version 15.2
 
--- Started on 2023-03-24 11:42:50
+-- Started on 2023-03-30 10:16:36
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -87,7 +87,7 @@ CREATE TABLE public.products (
     description character varying(500) NOT NULL,
     price numeric(10,2) NOT NULL,
     picture character varying(500) NOT NULL,
-    sales_id integer NOT NULL,
+    sales_id integer,
     category_name character varying(50) NOT NULL
 );
 
@@ -386,6 +386,7 @@ Maison
 Textile
 Electroménagé
 Livre
+Test_Multi
 \.
 
 
@@ -408,8 +409,19 @@ COPY public.persons (id, first_name, last_name, email, address, phone_number) FR
 --
 
 COPY public.products (id, product_label, description, price, picture, sales_id, category_name) FROM stdin;
-1	Test_1	produit test n°1	500.00	chemin/test/picture1	1	Test
-2	Test_2	produit test n°2	500.00	chemin/test/picture2	1	Test
+3	Test_Promo_On	produit test avec promotion valide	150.25	TestImage.jpg	5	Test
+1	Test_Promo_hs_1	produit test avec promotion non valide car date dépassée	500.00	logoTestProduit.png	1	Test
+2	Test_Promo_hs_2	produit test avec promotion non valide car >100%	500.00	TestImage.jpg	6	Test
+4	Test_Sans_Promo	Produit test sans promotion	250.00	logoTestProduit.png	\N	Test
+5	Test_Multiligne_1	Produit test multiligne	250.00	logoTestProduit.png	\N	Test_Multi
+10	Test_Multiligne_6	Produit test multiligne	136.97	logoTestProduit.png	\N	Test_Multi
+9	Test_Multiligne_5	Produit test multiligne	10.01	TestImage.jpg	\N	Test_Multi
+8	Test_Multiligne_4	Produit test multiligne	1999.99	logoTestProduit.png	\N	Test_Multi
+7	Test_Multiligne_3	Produit test multiligne	50.15	TestImage.jpg	\N	Test_Multi
+6	Test_Multiligne_2	Produit test multiligne	350.25	logoTestProduit.png	\N	Test_Multi
+13	Test_Multiligne_9	Produit test multiligne	11000.00	logoTestProduit.png	\N	Test_Multi
+12	Test_Multiligne_8	Produit test multiligne	60.05	TestImage.jpg	\N	Test_Multi
+11	Test_Multiligne_7	Produit test multiligne	465.32	logoTestProduit.png	\N	Test_Multi
 \.
 
 
@@ -436,6 +448,8 @@ COPY public.sales (id, on_date, off_date, discount, products_list) FROM stdin;
 2	2023-02-19	2023-02-27	30	\N
 3	2023-03-15	2023-03-18	20	{1,2}
 4	2023-03-19	2023-03-27	30	{1,2}
+5	2023-03-27	2023-12-31	50	{3}
+6	2023-02-01	2023-12-31	101	{2}
 \.
 
 
@@ -477,7 +491,7 @@ SELECT pg_catalog.setval('public.persons_id_seq', 2, true);
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.products_id_seq', 2, true);
+SELECT pg_catalog.setval('public.products_id_seq', 23, true);
 
 
 --
@@ -486,7 +500,7 @@ SELECT pg_catalog.setval('public.products_id_seq', 2, true);
 -- Name: products_salesid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.products_salesid_seq', 1, true);
+SELECT pg_catalog.setval('public.products_salesid_seq', 23, true);
 
 
 --
@@ -495,7 +509,7 @@ SELECT pg_catalog.setval('public.products_salesid_seq', 1, true);
 -- Name: sales_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sales_id_seq', 4, true);
+SELECT pg_catalog.setval('public.sales_id_seq', 6, true);
 
 
 --
@@ -624,7 +638,7 @@ ALTER TABLE ONLY public.products
     ADD CONSTRAINT fk_sale FOREIGN KEY (sales_id) REFERENCES public.sales(id);
 
 
--- Completed on 2023-03-24 11:42:50
+-- Completed on 2023-03-30 10:16:36
 
 --
 -- PostgreSQL database dump complete

@@ -1,0 +1,26 @@
+        <div id="tempContent">
+            <h1 class="text-center pt-2">Nos Articles</h1>
+            <div class="catalogue row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6">
+                <article th:each="a:${articlesList}" class="col p-2">
+                    <!-- Déclaration du composant -->
+                    <div class="card">
+                        <!-- Image située en haut -->
+                        <di class="card-img-container">
+                            <img class="card-image rounded-2"
+                                 th:src="'/uploadsFiles/'+${a.getPicture()}"/>
+                        </di>
+                        <!-- Corps de la carte -->
+                        <div class="card-body">
+                            <!-- Titre -->
+                            <div class="row">
+                                <h5 class="card-Label col card-text-important" th:text="${a.getName()}"></h5>
+                                <!-- Contenu de la carte -->
+                                <p class="category text-secondary small col" th:text="${a.getCategoryName()}"></p>
+                            </div>
+                            <h4 class="card-text-important" th:text="${a.getPrice()}+'€'"></h4>
+                            <p class="text-truncate text-truncate--2" th:text="${a.getDescription()}"></p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>

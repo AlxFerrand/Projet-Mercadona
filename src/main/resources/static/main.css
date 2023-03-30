@@ -1,10 +1,12 @@
 html{
-    height: 100%;
+    --line-h:24px;
+    --nth-line-trunc:2;
 }
 body{
     min-height: 100%;
     margin: 0;
     padding: 0;
+    background-color: rgba(33,37,41,1);
 }
 .navbar-brand{
     background-image: url(https://www.mercadona.es/static/media/mercadona-logo.a65a34320ed4e902bf30.svg);
@@ -24,5 +26,41 @@ body{
     height: 900px;
     padding-top: 250px;
     padding-left: 400px;
+}
+.catalogue{
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
+h1{
+    text-align: center;
+    color: rgba(25,135,84,1);
+    font-weight: bold;
+}
+.card{
+    height: 400px;
+}
+.card-Label{
+    padding-right: 2vw;
+}
 
+.text-truncate.text-truncate--2{
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.card-image{
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+}
+.card-img-container{
+    height: 50%;
+    width: 100%;
+    min-height: 50%
+}
+.card-text-important{
+    font-size: 1.3rem;
 }

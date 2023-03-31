@@ -1,5 +1,15 @@
         <div id="tempContent">
             <h1 class="text-center pt-2">Nos Articles</h1>
+            <div class="row align-items-center">
+                <h4 class="col-1 textFilter">Filtrer:</h4>
+                    <select class=" col-1 catFilter" id="catFilter">
+                        <option value="all">Tout</option>
+                        <option th:each="c:${categoriesList}" th:value="${c.getCatName()}" th:text="${c.getCatName()}">
+                        </option>
+                    </select>
+                    <button class="col-1 btnFilter" id="btnFilter">Valider</button>
+            </div>
+            <h4 class="text-center pt-2 text-warning" th:if="${articlesList.isEmpty()}">Aucun article disponible pour cette categorie</h4>
             <div class="catalogue row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6">
                 <article th:each="a:${articlesList}" class="col p-2">
                     <!-- Déclaration du composant -->

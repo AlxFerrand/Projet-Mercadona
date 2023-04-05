@@ -27,6 +27,9 @@ body{
     padding-top: 250px;
     padding-left: 400px;
 }
+.accueil-admin{
+    height: 900px;
+}
 .catalogue{
     padding-top: 10px;
     padding-bottom: 50px;
@@ -74,4 +77,23 @@ h1{
 }
 .textFilter{
     width: 6%;
+}
+.shadowBox{
+    background-color: rgba(0,0,0,0.7);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+.conexionWindows{
+    margin-top: 100px;
+    position: fixed;
+    border: solid;
+    border-color: var(--bs-success);
+    height: 320px;
+    background-color: rgba(255,255,255,1);
+    z-index: 1;
+}
+#modalConnexion{
+    display: none;
 }

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>Mercadona23</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2-FirstDeployed</version>
     <name>Mercadona23</name>
     <description>Mercadona23</description>
     <properties>

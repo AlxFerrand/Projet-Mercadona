@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mercadona - Menu Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body id="body">
+<script th:inline ="Javascript">
+  let tokenId = [[${tokenId}]];
+</script>
+<!--Nav bar-->
+<nav id="user-nav" class="navbar navbar-dark bg-success">
+  <div class="container-fluid">
+    <div class="col">
+      <div class="d-flex align-items-baseline">
+        <div class="navbar-brand rounded-pill" href="#"></div>
+        <ul class="navbar-nav ms-3 list-group-horizontal">
+          <li class="nav-item">
+            <a id="nav-home" class="nav-link active" aria-current="page" href="#" onclick="getMenu()">Menu</a>
+          </li>
+          <li class="nav-item ms-3">
+            <a id="nav-products" class="nav-link" href="#" onclick="getProducts()">Gestion Produits</a>
+          </li>
+          <li class="nav-item ms-3">
+            <a id="nav-promo" class="nav-link" href="#" onclick="getPromo()">Gestion Promotions</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <div class="d-flex align-item-center justify-content-end p-2">
+        <div class="align-items-center p-2">
+          <h5 class="text-white pt-2" th:text="${user.getLastName()}+' '+${user.getFirstName()}"></h5>
+        </div>
+        <div class="align-items-center p-2">
+          <button id="deconnexion" type="button" class="btn btn-dark">Deconnexion</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<!--Nav bar Fin-->
+
+<div class="container-fluid bg-white">
+  <div id="content">
+    <div id="tempContent">
+      <div class="accueil-admin row justify-content-center">
+        <div class="col-12">
+          <h1>Bienvenue dans l'espace Administrateur</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bg-dark container-fluid">
+  <footer class="row align-items-center justify-content-center">
+    <p class="col-1 py-3 text-center text-white">@Copyright</p>
+    <ul class="list-unstyled col text-center ">
+      <li class="list-inline-item ">
+        <a class="text-white" href="#">Accessibility</a>
+      </li>
+      <li class="list-inline-item">
+        <a class="text-white" href="#">Cookies</a>
+      </li>
+      <li class="list-inline-item ">
+        <a class="text-white" href="#">Terms and conditions</a>
+      </li>
+    </ul>
+    <div class="col-2">
+      <p class="d-flex justify-content-end p-3 text-white">Projet Mercadona</p>
+    </div>
+  </footer>
+</div>
+<script src="admin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>

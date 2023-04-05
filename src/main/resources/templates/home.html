@@ -6,7 +6,42 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link th:href="@{/main.css}" rel="stylesheet" />
 </head>
-<body>
+<body id="body">
+<div id="modalConnexion" class="container-fluid">
+    <div class="row shadowBox connexion"></div>
+    <div class="row justify-content-center">
+        <div class="col-3 conexionWindows">
+            <form id="formConnexion">
+                <h1 class="text-success text-center">Connexion</h1>
+                <!--Identifiant-->
+                <div class="row mb-3 p-2">
+                    <label for="identifiant">Identifiant</label>
+                    <input type="text"
+                           class="form-control"
+                           id="identifiant"
+                           aria-describedby="identifiant"
+                           required
+                    >
+                </div>
+
+                <!--PassWord-->
+                <div class=" row mb-3 p-2">
+                    <label for="password">Mot de passe</label>
+                    <input type="password"
+                           class="form-control"
+                           id="password"
+                           aria-describedby="password"
+                           required
+                    >
+                </div>
+                <!--Submit-->
+                <div class="row mb-3 p-2 justify-content-center">
+                    <button id="btnFormConnexion" type="button" class="col-3 btn btn-success mb-3">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!--Nav bar-->
 <nav id="user-nav" class="navbar navbar-dark bg-success">
     <div class="container-fluid">
@@ -29,7 +64,7 @@
                     <h5 class="text-white ">John Doe</h5>
                 </div>
                 <div class="">
-                    <button id="connexion" type="button" class="btn btn-dark">Connexion</button>
+                    <button id="connexion" type="button" class="btn btn-dark">Espace Admin</button>
                 </div>
             </div>
         </div>

@@ -51,6 +51,17 @@ public class UploadService {
         }
         return tempFile;
     }
+    public File getUploadsFilesByFileName (String fileName){
+        File dir = new File(System.getProperty("user.dir")+"/uploadsFiles");
+        File uploadsFile = null;
+        File[] filesListe = dir.listFiles();
+        for (File f : filesListe){
+            if (f.getName().equals(fileName)){
+                uploadsFile = f;
+            }
+        }
+        return uploadsFile;
+    }
 
     public String copyFilesToUploads (File tempFile, Long productId){
         String UPLOADS_DIRECTORY = System.getProperty("user.dir")+"/uploadsFiles";
@@ -64,7 +75,7 @@ public class UploadService {
         }catch (IOException ioe){
             return "";
         }
-        this.delteTempFiles(tempFile);
+        this.delteFiles(tempFile);
         return destFileName;
     }
 
@@ -80,9 +91,9 @@ public class UploadService {
         out.close();
     }
 
-    public void delteTempFiles (File tempFile){
-        if (tempFile.exists()){
-            tempFile.delete();
+    public void delteFiles(File file){
+        if (file.exists()){
+            file.delete();
         }
     }
 }

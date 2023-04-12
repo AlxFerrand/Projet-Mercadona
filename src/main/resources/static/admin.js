@@ -5,6 +5,7 @@ let divContent = document.getElementById('content')
 let divTempContent = document.getElementById('tempContent')
 let divModal = document.getElementById('modal')
 let divTempModal = document.getElementById('tempModal')
+let btnDeconnexion = document.getElementById('deconnexion')
 let catFilter
 let catFilterValue
 
@@ -12,6 +13,9 @@ let catFilterValue
 function windowLoad(){
     history.pushState({page : 1}, "EspaceAdmin", "EspaceAdmin-Menu")
     getMenu()
+}
+function deconnexion(){
+    location.replace("/")
 }
 function supcontent(){
     divTempContent.remove()
@@ -207,3 +211,4 @@ function postDeleteProduct(){
 
 
 window.addEventListener('load',windowLoad)
+btnDeconnexion.addEventListener('click',deconnexion)

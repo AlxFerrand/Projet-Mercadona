@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -167,6 +168,12 @@ public class ServiceController {
             System.out.println(productToDelete);
         }catch (Exception e){
             return "Le produit n'existe pas";
+        }
+        File fileProduct = uploadService.getUploadsFilesByFileName(
+                productsDao.getProduct(Long.valueOf(idProductToDelete)).getPicture()
+        );
+        if (fileProduct!=null) {
+            uploadService.delteFiles(fileProduct);
         }
         productsDao.deleteProducts(Long.valueOf(idProductToDelete));
         return "Produit supprimé avec succes";

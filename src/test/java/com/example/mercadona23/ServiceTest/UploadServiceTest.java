@@ -50,11 +50,25 @@ public class UploadServiceTest {
         Files.write(fileNameAndPath,MULTIPART_FILE.getBytes());
         Assertions.assertNotEquals(null,uploadServiceTest.getTempFilesByFileName(FILE_TEST_NAME));
         Assertions.assertEquals(FILE_TEST_NAME,uploadServiceTest.getTempFilesByFileName(FILE_TEST_NAME).getName());
-        uploadServiceTest.delteTempFiles(uploadServiceTest.getTempFilesByFileName(FILE_TEST_NAME));
+        uploadServiceTest.delteFiles(uploadServiceTest.getTempFilesByFileName(FILE_TEST_NAME));
     }
     @Test
     public void getTempFilesByFileNameTest_With_FileNotExist() throws IOException {
         Assertions.assertEquals(null,uploadServiceTest.getTempFilesByFileName(FILE_TEST_NAME));
+    }
+    /**************************** Test getUploadsFile ****************************/
+    @Test
+    public void getUploadsFilesByFileNameTest_With_FileExist() throws IOException {
+        /*Création du repertoir et du fichier a récupérer*/
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, FILE_TEST_NAME);
+        Files.write(fileNameAndPath,MULTIPART_FILE.getBytes());
+        Assertions.assertNotEquals(null,uploadServiceTest.getUploadsFilesByFileName(FILE_TEST_NAME));
+        Assertions.assertEquals(FILE_TEST_NAME,uploadServiceTest.getUploadsFilesByFileName(FILE_TEST_NAME).getName());
+        uploadServiceTest.delteFiles(uploadServiceTest.getUploadsFilesByFileName(FILE_TEST_NAME));
+    }
+    @Test
+    public void getUploadsFilesByFileNameTest_With_FileNotExist(){
+        Assertions.assertEquals(null,uploadServiceTest.getUploadsFilesByFileName(FILE_TEST_NAME));
     }
 
     /**************************** Test saveMultipartFile ****************************/
@@ -70,7 +84,7 @@ public class UploadServiceTest {
             }
         }
         Assertions.assertTrue(tempFile);
-        uploadServiceTest.delteTempFiles(uploadServiceTest.getTempFilesByFileName(FILE_TEST_NAME));
+        uploadServiceTest.delteFiles(uploadServiceTest.getTempFilesByFileName(FILE_TEST_NAME));
     }
 
     /**************************** Test uploadFileToTemp ****************************/
@@ -88,7 +102,7 @@ public class UploadServiceTest {
             }
         }
         Assertions.assertTrue(tempFile);
-        uploadServiceTest.delteTempFiles(uploadServiceTest.getTempFilesByFileName(fileNameTest));
+        uploadServiceTest.delteFiles(uploadServiceTest.getTempFilesByFileName(fileNameTest));
     }
     @Test
     public void uploadFileToTempTest_WithWrongFile(){
@@ -108,7 +122,7 @@ public class UploadServiceTest {
 
     /**************************** Test copyFileToUploads ****************************/
     @Test
-    public void copyFilesToUploads() throws IOException {
+    public void copyFilesToUploadsTest() throws IOException {
         /*Création d'un fichier Test dans /tempFiles*/
         Path fileNameAndPath = Paths.get(TEMP_DIRECTORY, TEMP_FILE_NAME_TEST);
         Files.write(fileNameAndPath, MULTIPART_FILE.getBytes());
@@ -143,7 +157,7 @@ public class UploadServiceTest {
         Assertions.assertTrue(UploadFile.exists());
 
         /*Suppression fichier*/
-        uploadServiceTest.delteTempFiles(UploadFile);
+        uploadServiceTest.delteFiles(UploadFile);
     }
 
 }

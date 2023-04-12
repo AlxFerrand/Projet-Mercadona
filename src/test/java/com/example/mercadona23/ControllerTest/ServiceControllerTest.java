@@ -48,7 +48,7 @@ public class ServiceControllerTest {
     public static void beforeAll() throws IOException {
         RESOURCE_DIRECTORY = System.getProperty("user.dir") + "/src/test/java/com/example/mercadona23/testResources";
         MULTI_PNG = new MockMultipartFile("picture","test1.png","IMAGE/png", new FileInputStream(new File(RESOURCE_DIRECTORY+"/testPNG1.PNG")));
-        MULTI_TXT = new MockMultipartFile("picture", new FileInputStream(new File(RESOURCE_DIRECTORY+"/testFautFichierPNG.png")));
+        MULTI_TXT = new MockMultipartFile("picture","test2.png","text/plain", new FileInputStream(new File(RESOURCE_DIRECTORY+"/testFautFichierPNG.png")));
         PRODUIT_TEST = new Products(29L,"Test_Delete","Produit pour test delte",100.0,"picture",null,"Test");
 
     }

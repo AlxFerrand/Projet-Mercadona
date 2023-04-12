@@ -21,7 +21,15 @@ public class Products {
 
     public Products() {
     }
-
+    public Products(Long id,String productLabel, String description, double price, String picture, Long salesId, String categoryName) {
+        this.id = id;
+        this.productLabel = productLabel;
+        this.description = description;
+        this.price = price;
+        this.picture = picture;
+        this.salesId = salesId;
+        this.categoryName = categoryName;
+    }
     public Products(String productLabel, String description, double price, String picture, Long salesId, String categoryName) {
         this.productLabel = productLabel;
         this.description = description;

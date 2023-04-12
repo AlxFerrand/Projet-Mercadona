@@ -1,0 +1,17 @@
+<div id="tempModal" xmlns="http://www.w3.org/1999/html">
+  <div id="modalDelete" class="container-fluid">
+    <div class="row shadowBox"></div>
+    <div class="row justify-content-center">
+      <div class="col-3 deleteWindows">
+        <h4 class="text-center">Voulez vous vraiment supprimer le produit suivant :</h4>
+        <p class="fw-bold">Id produit :<span id="idDeleteProduct" th:text="${productToDelete.getId()}"></span></p>
+        <p class="fw-bold">Nom produit : <span th:text="${productToDelete.getProductLabel()}"></span></p>
+        <p class="fw-bold">Categorie : <span th:text="${productToDelete.getCategoryName()}"></span></p>
+        <div class="row justify-content-evenly">
+          <button id="btnCancel" type="button" class="col-3 btn btn-success">Annuler</button>
+          <button id="btnDeleteProduct" type="button" class="col-3 btn btn-danger">Supprimer !</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

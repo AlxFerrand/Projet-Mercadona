@@ -1,0 +1,73 @@
+<div id="tempModal" xmlns="http://www.w3.org/1999/html">
+    <div id="modalAdd" class="container-fluid">
+        <div class="row shadowBox"></div>
+        <div class="row justify-content-center">
+            <div class="col-3 AddWindows">
+                <form id="formAdd" method="post" enctype="multipart/form-data" >
+                    <h1 class="text-success text-center">Nouveau Produit</h1>
+                    <!--Label-->
+                    <div class=" row p-2">
+                        <label for="label">Nom produit</label>
+                        <input type="text"
+                               class="form-control"
+                               id="label"
+                               aria-describedby="label"
+                               name="label"
+                               required
+                        >
+                    </div>
+                    <!--Description-->
+                    <div class=" row p-2">
+                        <label for="description">Description</label>
+                        <textarea
+                                class="form-control"
+                                id="description"
+                                aria-describedby="description"
+                                rows="5"
+                                cols="20"
+                                name="description"
+                                required
+                        ></textarea>
+                    </div>
+                    <!--Category-->
+                    <div class=" row p-2">
+                        <label for="category">Categorie</label>
+                        <select class="form-control" id="category" name="category" required>
+                            <option value="">Selectionner une categorie</option>
+                            <option th:each="c:${categoriesList}" th:value="${c.getCatName()}" th:text="${c.getCatName()}">
+                            </option>
+                        </select>
+                    </div>
+                    <!--Price-->
+                    <div class=" row p-2">
+                        <label for="price">Prix</label>
+                        <input type="number"
+                               class="form-control"
+                               id="price"
+                               aria-describedby="price"
+                               name="price"
+                               required
+                        >
+                    </div>
+                    <!--Picture-->
+                    <div class=" row p-2">
+                        <label for="picture">Image</label>
+                        <input type="file"
+                               class="form-control"
+                               id="picture"
+                               aria-describedby="picture"
+                               accept=".jpeg, .png, .jpg"
+                               name="picture"
+                               required
+                        >
+                    </div>
+                    <!--Submit-->
+                    <div class="row p-2 justify-content-evenly">
+                        <button id="btnCancel" type="button" class="col-3 btn btn-success mb-3">Annuler</button>
+                        <button id="btnFormAdd" type="submit" class="col-3 btn btn-warning mb-3">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

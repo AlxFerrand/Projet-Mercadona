@@ -1,6 +1,7 @@
 package com.example.mercadona23.daoServiceTest;
 
 import com.example.mercadona23.daoService.*;
+import com.example.mercadona23.model.Products;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,4 @@ public class daoServiceTest {
     public void getTokens(){Assertions.assertFalse(tokensDao.getTokens().isEmpty());}
     @Test
     public void getUsers(){Assertions.assertFalse(usersDao.getUsers().isEmpty());}
-
 }

@@ -23,16 +23,17 @@ body{
 .accueil-content{
     background-image: url(https://www.mercadona.es/static/media/banner1@1x.a1cc528b6c06e1f281e1.jpg);
     background-size: cover;
-    height: 900px;
+    min-height: 900px;
     padding-top: 250px;
     padding-left: 400px;
 }
 .accueil-admin{
-    height: 900px;
+    min-height: 900px;
 }
 .catalogue{
     padding-top: 10px;
     padding-bottom: 50px;
+    min-height: 760px;
 }
 h1{
     text-align: center;
@@ -94,6 +95,42 @@ h1{
     background-color: rgba(255,255,255,1);
     z-index: 1;
 }
+.AddWindows{
+    margin-top: 100px;
+    position: fixed;
+    border: solid;
+    border-color: var(--bs-success);
+    height: 620px;
+    background-color: rgba(255,255,255,1);
+    z-index: 1;
+}
+.updateWindows{
+    margin-top: 100px;
+    position: fixed;
+    border: solid;
+    border-color: var(--bs-success);
+    height: 620px;
+    background-color: rgba(255,255,255,1);
+    z-index: 1;
+}
+.deleteWindows{
+    margin-top: 100px;
+    position: fixed;
+    border: solid;
+    border-color: var(--bs-success);
+    height: 260px;
+    background-color: rgba(255,255,255,1);
+    z-index: 1;
+}
 #modalConnexion{
     display: none;
+}
+.table-products-title{
+    background-color: rgba(255,141,53,1);
+}
+.table-responsive{
+    width: 80%;
+}
+.td-btn{
+    width: 1% ;
 }

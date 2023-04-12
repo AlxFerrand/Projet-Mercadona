@@ -39,6 +39,8 @@ public class GeneratorServiceTest {
                 "Test");
         PRODUCT.setId(1L);
     }
+
+    /**************************** Test Generate single Article ****************************/
     @Test
     public void generateArticleTest_With_Product_Null(){
         Assertions.assertTrue(generatorServiceTest.generateArticle(new Products())==null);
@@ -76,6 +78,7 @@ public class GeneratorServiceTest {
         Assertions.assertTrue(a.getBasePrice()!=a.getPrice());
     }
 
+    /**************************** Test Generate Articles List ****************************/
     @Test
     public void generateArticlesListTest(){
         List<Products> productsList = new ArrayList<>();

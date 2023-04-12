@@ -12,9 +12,9 @@ public class ProductsDao {
     @Autowired
     ProductsRepository productsRepository;
 
-    public List<Products> getProducts(){return productsRepository.findAll();}
+    public List<Products> getProducts(){return productsRepository.findAllByOrderById();}
     public List<Products> getProductsByCategoryName(String categoryName){
-        return productsRepository.findAllByCategoryName(categoryName);
+        return productsRepository.findAllByCategoryNameOrderById(categoryName);
     }
     public List<Products> getProductsByPriceIsLessThan(double minPrice){
         return productsRepository.findAllByPriceIsLessThan(minPrice);
@@ -29,7 +29,7 @@ public class ProductsDao {
         return productsRepository.findAllBySalesId(salesId);
     }
     public Products getProduct(Long id){return productsRepository.findById(id).get();}
-    public void addProduct(Products newEntry){productsRepository.save(newEntry);}
-    public void updateProducts(Products update,Long id){}
-    public void deleteProducts(Long id){}
+    public Products addProduct(Products newEntry){return productsRepository.save(newEntry);}
+    public void updateProducts(Products update){productsRepository.save(update);}
+    public void deleteProducts(Long id){productsRepository.deleteById(id);}
 }

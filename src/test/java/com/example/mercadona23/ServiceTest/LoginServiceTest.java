@@ -28,6 +28,8 @@ public class LoginServiceTest {
         FAKE_PASSWORD = "FAKE_PASSWORD";
         FAKE_TOKEN = "3ed7910775090e4567ce53fd6e03da6e92d68282ea993a619852e7b2e4de2870";
     }
+
+    /**************************** Test getToken ****************************/
     @Test
     public void getTokenTest_With_GoodLogins(){
         Assertions.assertEquals(64,loginServiceTest.getToken(JOHN_IDENTIFIANT,JOHN_PASSWORD).length());
@@ -41,6 +43,7 @@ public class LoginServiceTest {
         Assertions.assertEquals(null,loginServiceTest.getToken(FAKE_IDENTIFIANT,JOHN_PASSWORD));
     }
 
+    /**************************** Test Validity Token ****************************/
     @Test
     public void isValidTokenTest_With_ValideToken(){
         String tokenId = loginServiceTest.getToken(JOHN_IDENTIFIANT,JOHN_PASSWORD);

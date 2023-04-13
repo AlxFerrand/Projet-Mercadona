@@ -56,7 +56,7 @@ public class SalesDao {
         return salesRepository.findAllByDiscountIsBetween(minDiscount,maxDiscount);
     }
     public Sales getOneSales(Long id){return salesRepository.findById(id).get();}
-    public void addSales(Sales newEntry){salesRepository.save(newEntry);}
-    public void updateSales(Sales update,Long id){}
-    public void deleteSales(Long id){}
+    public Sales addSales(Sales newEntry){return salesRepository.save(newEntry);}
+    public void updateSales(Sales update,Long id){salesRepository.save(update);}
+    public void deleteSales(Long id){salesRepository.deleteById(id);}
 }

@@ -1,17 +1,15 @@
 package com.example.mercadona23.controller;
 
 import com.example.mercadona23.daoService.ProductsDao;
-import com.example.mercadona23.daoService.TokensDao;
+import com.example.mercadona23.daoService.SalesDao;
 import com.example.mercadona23.model.ConnectUser;
-import com.example.mercadona23.model.ProductUpdate;
 import com.example.mercadona23.model.Products;
+import com.example.mercadona23.model.Sales;
 import com.example.mercadona23.service.CheckService;
 import com.example.mercadona23.service.LoginService;
 import com.example.mercadona23.service.UploadService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,9 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class ServiceController {
@@ -38,6 +34,8 @@ public class ServiceController {
     CheckService checkService;
     @Autowired
     UploadService uploadService;
+    @Autowired
+    SalesDao salesDao;
 
     @GetMapping(value = "/uploadsFiles/{image}",produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getImages(@PathVariable("image") String imageName) throws IOException {
@@ -177,5 +175,40 @@ public class ServiceController {
         }
         productsDao.deleteProducts(Long.valueOf(idProductToDelete));
         return "Produit supprimé avec succes";
+    }
+
+    @PostMapping("/postAddSales")
+    public String postAddSales(@RequestParam("productId") String productId,
+                                    @RequestParam("onDate") String onDate,
+                                    @RequestParam("offDate") String offDate,
+                                    @RequestParam("discount") int discount,
+                                    @RequestParam("tokenId") String tokenId
+    )
+    {
+        if (!loginService.isValidToken(tokenId)){
+            return "Erreur : Temps de connexion dépassé";
+        }
+        if (!(loginService.findTokenRoleByTokenId(tokenId).equals("admin"))){
+            return "Erreur : Vous n'etes pas autorisé à faire cette action";
+        }
+        if (discount > 100){
+            discount = 100;
+        }
+        if (discount < 0){
+            discount = 0;
+        }
+        Products productToUpdate;
+        try{
+            productToUpdate = productsDao.getProduct(Long.valueOf(productId));
+        }catch (Exception e){
+            return "Le produit n'existe pas";
+        }
+        Sales salesToAdd = new Sales(onDate,offDate,discount,productId);
+        Sales salesAdd = salesDao.addSales(salesToAdd);
+        System.out.println(salesAdd);
+        productToUpdate.setSalesId(salesAdd.getId());
+        productsDao.updateProducts(productToUpdate);
+        System.out.println(productToUpdate);
+        return "Promotion ajouté avec succes";
     }
 }

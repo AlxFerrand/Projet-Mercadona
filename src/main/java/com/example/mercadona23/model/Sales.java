@@ -70,7 +70,6 @@ public class Sales {
     public ArrayList<Long> getProductsList() {
         String SEPARATEUR = ",";
         if (productsList != null) {
-            productsList=productsList.replaceAll("\\{|\\}","");
             String productId[] = productsList.split(SEPARATEUR);
             ArrayList<Long> productsIdList = new ArrayList<>();
             for (int i = 0; i < productId.length; i++) {

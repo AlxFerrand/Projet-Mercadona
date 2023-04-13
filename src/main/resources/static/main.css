@@ -68,6 +68,14 @@ h1{
 .card-text-important{
     font-size: 1.3rem;
 }
+.onSales{
+    color: red;
+    font-weight: bold;
+}
+.text-barre{
+    text-decoration: line-through;
+   font-size: 1rem;
+}
 .btnFilter{
     background-color: #0d6efd;
     color: white;
@@ -122,6 +130,15 @@ h1{
     background-color: rgba(255,255,255,1);
     z-index: 1;
 }
+.AddSalesWindows{
+    margin-top: 100px;
+    position: fixed;
+    border: solid;
+    border-color: var(--bs-success);
+    height: 360px;
+    background-color: rgba(255,255,255,1);
+    z-index: 1;
+}
 #modalConnexion{
     display: none;
 }
@@ -133,4 +150,7 @@ h1{
 }
 .td-btn{
     width: 1% ;
+}
+.td-btn.btn-Promo{
+    width: 10% ;
 }

@@ -25,15 +25,15 @@
               <th class="text-white">Id produit</th>
               <th class="text-white">Nom produit</th>
               <th class="text-white">Categorie</th>
-              <th class="text-white">Prix de base</th>
-              <th class="text-white">Id reduction</th>
+              <th class="text-white text-center">Prix de base</th>
+              <th class="text-white text-center">Id reduction</th>
             </tr>
             <tr th:each="p:${productList}">
               <td th:text="${p.getId()}"></td>
               <td th:text="${p.getProductLabel()}"></td>
               <td th:text="${p.getCategoryName()}"></td>
-              <td th:text="${p.getPrice()}+'€'"></td>
-              <td th:text="${p.getSalesId()}"></td>
+              <td class="text-center" th:text="${p.getPrice()}+'€'"></td>
+              <td class="text-center" th:text="${p.getSalesId()}"></td>
               <td class="td-btn"><button class="btn btn-warning btn-sm" type="button" th:onclick="'getModalUpdate('+${p.getId()}+')'">Modifier</button></td>
               <td class="td-btn"><button class="btn btn-danger btn-sm" type="button" th:onclick="'getModalDelete('+${p.getId()}+')'">Supp</button></td>
             </tr>

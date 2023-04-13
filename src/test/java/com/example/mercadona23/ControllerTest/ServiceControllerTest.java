@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.*;
 
 import com.example.mercadona23.daoService.ProductsDao;
+import com.example.mercadona23.daoService.SalesDao;
 import com.example.mercadona23.model.Products;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -29,6 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 
 @SpringBootTest
@@ -38,7 +41,8 @@ public class ServiceControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ProductsDao productsDaoTest = new ProductsDao();
-
+    @Autowired
+    private SalesDao salesDaoTest = new SalesDao();
     private static String RESOURCE_DIRECTORY;
     private static MockMultipartFile MULTI_PNG;
     private static MockMultipartFile MULTI_TXT;
@@ -262,4 +266,53 @@ public class ServiceControllerTest {
         Assertions.assertTrue(response.contains("Produit supprimé avec succes"));
     }
 
+    /**************************** Test addSales ****************************/
+    @Test
+    public void postAddSales_With_WrongProductId() throws Exception {
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("productId","-1");
+        params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
+        params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
+        params.add("discount","50");
+        params.add("tokenId","tokenId");
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSales")
+                        .params(params))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Assertions.assertTrue(response.contains("Le produit n'existe pas"));
+    }
+    @Test
+    public void postAddSales_With_discount_Sup100() throws Exception {
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("productId","1");
+        params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
+        params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
+        params.add("discount","150");
+        params.add("tokenId","tokenId");
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSales")
+                        .params(params))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Assertions.assertTrue(response.contains("Promotion ajouté avec succes"));
+        Assertions.assertEquals(
+                100,
+                salesDaoTest.getOneSales(productsDaoTest.getProduct(1L).getSalesId()).getDiscount());
+    }
+    @Test
+    public void postAddSales_With_GoodData() throws Exception {
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("productId","1");
+        params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
+        params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
+        params.add("discount","50");
+        params.add("tokenId","tokenId");
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSales")
+                        .params(params))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Assertions.assertTrue(response.contains("Promotion ajouté avec succes"));
+    }
 }

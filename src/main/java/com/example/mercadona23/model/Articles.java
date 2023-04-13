@@ -1,29 +1,41 @@
 package com.example.mercadona23.model;
-
 public class Articles {
+    private Long id;
     private String name;
     private String description;
     private String picture;
     private String categoryName;
+    private Long salesId;
     private double basePrice;
     private double price;
     private int discount;
     private String onDateDiscount;
     private String offDateDiscount;
 
-    public Articles(String name, String description, String picture, String categoryName, double basePrice) {
+    public Articles(String name, String description, String picture, String categoryName, double basePrice, Long salesId) {
         this.name = name;
         this.description = description;
         this.picture = picture;
         this.categoryName = categoryName;
         this.basePrice = basePrice;
+        this.salesId = salesId;
     }
     public Articles(Products p){
+        this.id = p.getId();
         this.name = p.getProductLabel();
         this.description = p.getDescription();
         this.picture = p.getPicture();
         this.categoryName = p.getCategoryName();
         this.basePrice = p.getPrice();
+        this.salesId = p.getSalesId();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -71,7 +83,12 @@ public class Articles {
     }
 
     public void setPrice() {
-        this.price = Math.round(this.getBasePrice()*(100-this.getDiscount()))/100.0;
+        double price = Math.round(this.getBasePrice()*(100-this.getDiscount()))/100.0;
+        if (price >0){
+            this.price = price;
+        }else {
+            this.price = 0;
+        }
     }
 
     public int getDiscount() {
@@ -98,6 +115,14 @@ public class Articles {
         this.offDateDiscount = offDateDiscount;
     }
 
+    public Long getSalesId() {
+        return salesId;
+    }
+
+    public void setSalesId(Long salesId) {
+        this.salesId = salesId;
+    }
+
     @Override
     public String toString() {
         return "Articles{" +
@@ -105,6 +130,7 @@ public class Articles {
                 ", description='" + description + '\'' +
                 ", picture='" + picture + '\'' +
                 ", categoryName='" + categoryName + '\'' +
+                ", salesId=" + salesId +
                 ", basePrice=" + basePrice +
                 ", price=" + price +
                 ", discount=" + discount +

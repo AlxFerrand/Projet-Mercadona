@@ -27,7 +27,11 @@
                                 <!-- Contenu de la carte -->
                                 <p class="category text-secondary small col" th:text="${a.getCategoryName()}"></p>
                             </div>
-                            <h4 class="card-text-important" th:text="${a.getPrice()}+'€'"></h4>
+                            <h4 th:if="${a.getDiscount()==0}" class="card-text-important" th:text="${a.getPrice()}+'€'"></h4>
+                            <h4 th:if="${a.getDiscount()!=0}">
+                                <span class="text-barre" th:text="${a.getBasePrice()}+'€'"></span>
+                                <span class="card-text-important onSales" th:text="${a.getPrice()}+'€'"></span>
+                            </h4>
                             <p class="text-truncate text-truncate--2" th:text="${a.getDescription()}"></p>
                         </div>
                     </div>

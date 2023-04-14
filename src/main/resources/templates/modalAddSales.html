@@ -1,0 +1,58 @@
+<div id="tempModal" xmlns="http://www.w3.org/1999/html">
+    <div id="modalAddSales" class="container-fluid">
+        <div class="row shadowBox"></div>
+        <div class="row justify-content-center">
+            <div class="col-3 AddSalesWindows">
+                <form id="formAddSales" method="post" enctype="multipart/form-data" >
+                    <h1 class="text-success text-center">Nouvelle Promotion</h1>
+                    <!--OnDate-->
+                    <div class=" row p-2">
+                        <label for="onDate">Date de début</label>
+                        <input type="date"
+                               class="form-control"
+                               id="onDate"
+                               aria-describedby="onDate"
+                               name="onDate"
+                               required
+                        >
+                    </div>
+                    <!--OffDate-->
+                    <div class=" row p-2">
+                        <label for="offDate">Date de fin</label>
+                        <input type="date"
+                               class="form-control"
+                               id="offDate"
+                               aria-describedby="offDate"
+                               name="offDate"
+                               required
+                        >
+                    </div>
+                    <!--Discount-->
+                    <div class=" row p-2">
+                        <label for="discount">Montant réduction</label>
+                        <input type="number"
+                               class="form-control"
+                               id="discount"
+                               aria-describedby="discount"
+                               name="discount"
+                               required
+                        >
+                    </div>
+                    <input
+                            type="hidden"
+                            class="form-control"
+                            id="productId"
+                            aria-describedby="productId"
+                            name="productId"
+                            th:value="${productId}"
+                    >
+                    <!--Submit-->
+                    <div class="row p-2 justify-content-evenly">
+                        <button id="btnCancel" type="button" class="col-3 btn btn-success mb-3">Annuler</button>
+                        <button id="btnFormAdd" type="submit" class="col-3 btn btn-warning mb-3">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,13 +1,7 @@
 package com.example.mercadona23.controller;
 
-import com.example.mercadona23.daoService.CategoriesDao;
-import com.example.mercadona23.daoService.PersonsDao;
-import com.example.mercadona23.daoService.ProductsDao;
-import com.example.mercadona23.daoService.UsersDao;
-import com.example.mercadona23.model.Articles;
-import com.example.mercadona23.model.Persons;
-import com.example.mercadona23.model.Products;
-import com.example.mercadona23.model.Users;
+import com.example.mercadona23.daoService.*;
+import com.example.mercadona23.model.*;
 import com.example.mercadona23.service.GeneratorService;
 import com.example.mercadona23.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +23,8 @@ public class RouterController {
     CategoriesDao categoriesDao;
     @Autowired
     UsersDao usersDao;
-
+    @Autowired
+    SalesDao salesDao;
     @Autowired
     PersonsDao personsDao;
     @Autowired
@@ -47,9 +42,9 @@ public class RouterController {
     public String getCatalogue(Model model,@PathVariable("category") String categoryName){
         List<Articles> articlesList = new ArrayList<>();
         if (!categoryName.equals("all")){
-                articlesList = generatorService.generateArticlesList(productsDao.getProductsByCategoryName(categoryName));
+                articlesList = generatorService.generateArticlesList(productsDao.getProductsByCategoryName(categoryName),false);
         }else {
-            articlesList = generatorService.generateArticlesList(productsDao.getProducts());
+            articlesList = generatorService.generateArticlesList(productsDao.getProducts(),false);
         }
         model.addAttribute("articlesList",articlesList);
         model.addAttribute("categoriesList",categoriesDao.getCategories());
@@ -106,14 +101,25 @@ public class RouterController {
         return "adminProducts";
     }
 
-    @GetMapping("/getAdminPromo")
-    public String getAdminPromo (Model model, @RequestParam("tokenId") String tokenId) {
+    @GetMapping("/getAdminPromo/{category}")
+    public String getAdminPromo (Model model,
+                                 @RequestParam("tokenId") String tokenId,
+                                 @PathVariable("category") String categoryName)
+    {
         if (!loginService.isValidToken(tokenId)){
             return "home";
         }
         if (!(loginService.findTokenRoleByTokenId(tokenId).equals("admin"))){
             return "home";
         }
+        List<Articles> articlesList = new ArrayList<>();
+        if (!categoryName.equals("all")) {
+            articlesList = generatorService.generateArticlesList(productsDao.getProductsByCategoryName(categoryName),true);
+        }else {
+            articlesList = generatorService.generateArticlesList(productsDao.getProducts(),true);
+        }
+        model.addAttribute("articlesList",articlesList);
+        model.addAttribute("categoriesList",categoriesDao.getCategories());
         return "adminPromo";
     }
     @GetMapping("/getAddModale")
@@ -166,5 +172,20 @@ public class RouterController {
         }
         model.addAttribute("productToDelete",productToDelete);
         return "modalDelete";
+    }
+    @GetMapping("/getAddSalesModale/{productId}")
+    public String getAddModal (Model model,
+                               @RequestParam("tokenId") String tokenId,
+                               @PathVariable("productId") String productId)
+    {
+        if (!loginService.isValidToken(tokenId)){
+            return "home";
+        }
+        if (!(loginService.findTokenRoleByTokenId(tokenId).equals("admin"))){
+            return "home";
+        }
+        model.addAttribute("productId",productId);
+        model.addAttribute("categoriesList",categoriesDao.getCategories());
+        return "modalAddSales";
     }
 }

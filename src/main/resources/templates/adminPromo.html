@@ -1,8 +1,55 @@
 <div id="tempContent">
   <div class="accueil-admin row justify-content-center">
     <div class="col-12">
-      <h1> PROMOTIONS !!</h1>
-      <div class="col text-center mt-4">
+      <h1> Gestion Promotions</h1>
+      <div class="row align-items-center">
+        <h4 class="col-1 textFilter">Filtrer:</h4>
+        <select class=" col-1 catFilter" id="catFilterPromo">
+          <option value="all">Tout</option>
+          <option th:each="c:${categoriesList}" th:value="${c.getCatName()}" th:text="${c.getCatName()}">
+          </option>
+        </select>
+        <button class="col-1 btnFilter" id="btnFilter">Valider</button>
+      </div>
+      <h4 class="text-center pt-2 text-warning" th:if="${articlesList.isEmpty()}">Aucun article disponible pour cette categorie</h4>
+      <div class="row justify-content-center mt-4">
+        <div class="table-responsive" th:if="${!articlesList.isEmpty()}">
+          <table class="table table-sm table-striped">
+            <thead class="table-success text-center"></thead>
+            <tbody id="table-body">
+            <tr class="table-products-title">
+              <th class="text-white">Id produit</th>
+              <th class="text-white">Nom produit</th>
+              <th class="text-white">Categorie</th>
+              <th class="text-white text-center">Id reduction</th>
+              <th class="text-white text-center">Valeur reduction</th>
+              <th class="text-white text-center">Prix de base</th>
+              <th class="text-white text-center">Prix final</th>
+              <th class="text-white text-center">Début promotion</th>
+              <th class="text-white text-center">Fin promotion</th>
+            </tr>
+            <tr th:each="a:${articlesList}">
+              <td th:text="${a.getId()}"></td>
+              <td th:text="${a.getName()}"></td>
+              <td th:text="${a.getCategoryName()}"></td>
+              <td class="text-center" th:text="${a.getSalesId()}"></td>
+              <td class="text-center" th:text="${a.getDiscount()}"></td>
+              <td class="text-center" th:text="${a.getBasePrice()}+'€'"></td>
+              <td class="text-center" th:text="${a.getPrice()}+'€'"></td>
+              <td class="text-center" th:text="${a.getOnDateDiscount()}"></td>
+              <td class="text-center" th:text="${a.getOffDateDiscount()}"></td>
+              <td class="td-btn btn-Promo">
+                <button
+                        class="btn btn-warning btn-sm"
+                        type="button"
+                        th:onclick="'getModalAddSales('+${a.getId()}+')'"
+                >Ajouter Promotion
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

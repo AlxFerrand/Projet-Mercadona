@@ -85,7 +85,7 @@ public class GeneratorServiceTest {
         ArrayList<Articles> articlesList = new ArrayList<>();
         productsList.add(new Products());
         productsList.add(PRODUCT);
-        articlesList = generatorServiceTest.generateArticlesList(productsList);
+        articlesList = generatorServiceTest.generateArticlesList(productsList,false);
         Assertions.assertTrue(articlesList.size() == 1);
         Assertions.assertTrue(articlesList.get(0).getName() == "Product test generator OK");
     }

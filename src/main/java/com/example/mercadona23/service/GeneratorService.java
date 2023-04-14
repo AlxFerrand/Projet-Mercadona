@@ -18,11 +18,19 @@ public class GeneratorService {
     @Autowired
     CheckService checkService;
 
-    public ArrayList<Articles> generateArticlesList (List<Products> productsList) {
+    public ArrayList<Articles> generateArticlesList (List<Products> productsList,boolean modeAdmin) {
         ArrayList<Articles> articlesList = new ArrayList<>();
-        for (Products p : productsList) {
-            if (generateArticle(p) != null) {
-                articlesList.add(generateArticle(p));
+        if (!modeAdmin) {
+            for (Products p : productsList) {
+                if (generateArticle(p) != null) {
+                    articlesList.add(generateArticle(p));
+                }
+            }
+        }else {
+            for (Products p : productsList) {
+                if (generateAdminArticle(p) != null) {
+                    articlesList.add(generateAdminArticle(p));
+                }
             }
         }
         return articlesList;
@@ -43,6 +51,26 @@ public class GeneratorService {
                 } else {
                     a.setDiscount(0);
                 }
+            }catch (Exception e){
+                a.setDiscount(0);
+            }
+        } else {
+            a.setDiscount(0);
+        }
+        a.setPrice();
+        return a;
+    }
+    public Articles generateAdminArticle(Products p) {
+        if (p.getId()==null){
+            return null;
+        }
+        Articles a = new Articles(p);
+        if (p.getSalesId() != null) {
+            try {
+                Sales productSales = salesDao.getOneSales(p.getSalesId());
+                a.setDiscount(productSales.getDiscount());
+                a.setOnDateDiscount(productSales.getOnDate());
+                a.setOffDateDiscount(productSales.getOffDate());
             }catch (Exception e){
                 a.setDiscount(0);
             }

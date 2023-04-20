@@ -34,8 +34,8 @@ public class CheckService {
     public boolean checkValidityDateSales (String onDate, String offDate){
         LocalDate onDateLDT = LocalDate.parse(onDate);
         LocalDate offDateLDT = LocalDate.parse(offDate);
-        return (LocalDate.now(ZoneId.of("Europe/Paris")).isAfter(onDateLDT)
-                && LocalDate.now(ZoneId.of("Europe/Paris")).isBefore(offDateLDT));
+        return ((LocalDate.now(ZoneId.of("Europe/Paris")).isAfter(onDateLDT) || LocalDate.now(ZoneId.of("Europe/Paris")).equals(onDateLDT))
+                && (LocalDate.now(ZoneId.of("Europe/Paris")).isBefore(offDateLDT) || LocalDate.now(ZoneId.of("Europe/Paris")).equals(offDateLDT)));
     }
 
     public boolean checkFile (MultipartFile file){

@@ -32,6 +32,7 @@ function getMenu(){
     xhrRouter.onload=()=>{
         if (xhrRouter.readyState == 4 && xhrRouter.status ==200){
             if (xhrRouter.responseText.startsWith("<!DOCTYPE html>")){
+                alert("Erreur : Temps de connexion dépassé")
                 location.replace("/")
             }else {
                 divContent.innerHTML += xhrRouter.response
@@ -63,6 +64,7 @@ function getProducts(){
     xhrRouter.onload=()=>{
         if (xhrRouter.readyState == 4 && xhrRouter.status ==200){
             if (xhrRouter.responseText.startsWith("<!DOCTYPE html>")){
+                alert("Erreur : Temps de connexion dépassé")
                 location.replace("/")
             }else {
                 divContent.innerHTML += xhrRouter.response
@@ -95,6 +97,7 @@ function getPromo(){
     xhrRouter.onload=()=>{
         if (xhrRouter.readyState == 4 && xhrRouter.status ==200){
             if (xhrRouter.responseText.startsWith("<!DOCTYPE html>")){
+                alert("Erreur : Temps de connexion dépassé")
                 location.replace("/")
             }else {
                 divContent.innerHTML += xhrRouter.response
@@ -121,6 +124,7 @@ function getModalAdd(){
     xhrRouter.onload=()=> {
         if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
             if (xhrRouter.responseText.startsWith("<!DOCTYPE html>")){
+                alert("Erreur : Temps de connexion dépassé")
                 location.replace("/")
             }else {
                 divModal.innerHTML += xhrRouter.response
@@ -164,6 +168,7 @@ function getModalUpdate(productId){
     xhrRouter.onload=()=> {
         if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
             if (xhrRouter.responseText.startsWith("<!DOCTYPE html>")){
+                alert("Erreur : Temps de connexion dépassé")
                 location.replace("/")
             }else {
                 divModal.innerHTML += xhrRouter.response
@@ -206,6 +211,7 @@ function getModalDelete(productId){
     xhrRouter.onload=()=> {
         if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
             if (xhrRouter.responseText.startsWith("<!DOCTYPE html>")){
+                alert("Erreur : Temps de connexion dépassé")
                 location.replace("/")
             }else {
                 divModal.innerHTML += xhrRouter.response
@@ -248,6 +254,7 @@ function getModalAddSales(productId){
     xhrRouter.onload=()=> {
         if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
             if (xhrRouter.responseText.startsWith("<!DOCTYPE html>")){
+                alert("Erreur : Temps de connexion dépassé")
                 location.replace("/")
             }else {
                 divModal.innerHTML += xhrRouter.response

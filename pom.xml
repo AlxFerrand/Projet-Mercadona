@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>Mercadona23</artifactId>
-    <version>0.5-POC-1</version>
+    <version>0.55-POC-1.5</version>
     <name>Mercadona23</name>
     <description>Mercadona23</description>
     <properties>

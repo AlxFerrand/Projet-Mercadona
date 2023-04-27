@@ -11,6 +11,9 @@
         </select>
         <button class="col-1 btnFilter" id="btnFilter">Valider</button>
       </div>
+      <div class="row justify-content-start mt-3 ms-5">
+        <button class="col-2 btn btn-success" id="btnModalAddToCat">Ajouter promotion sur categorie</button>
+      </div>
       <h4 class="text-center pt-2 text-warning" th:if="${articlesList.isEmpty()}">Aucun article disponible pour cette categorie</h4>
       <div class="row justify-content-center mt-4">
         <div class="table-responsive" th:if="${!articlesList.isEmpty()}">
@@ -42,7 +45,7 @@
                 <button
                         class="btn btn-warning btn-sm"
                         type="button"
-                        th:onclick="'getModalAddSales('+${a.getId()}+')'"
+                        th:onclick="'getModalAddSalesToProduct('+${a.getId()}+')'"
                 >Ajouter Promotion
                 </button>
               </td>

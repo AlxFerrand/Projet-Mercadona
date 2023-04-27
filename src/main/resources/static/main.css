@@ -131,12 +131,21 @@ h1{
     background-color: rgba(255,255,255,1);
     z-index: 1;
 }
-.AddSalesWindows{
+.AddSalesToProductWindows{
     margin-top: 100px;
     position: fixed;
     border: solid;
     border-color: var(--bs-success);
     height: 360px;
+    background-color: rgba(255,255,255,1);
+    z-index: 1;
+}
+.AddSalesToCatWindows{
+    margin-top: 100px;
+    position: fixed;
+    border: solid;
+    border-color: var(--bs-success);
+    height: 420px;
     background-color: rgba(255,255,255,1);
     z-index: 1;
 }

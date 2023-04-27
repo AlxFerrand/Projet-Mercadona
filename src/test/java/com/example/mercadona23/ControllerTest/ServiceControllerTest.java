@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 
 
 @SpringBootTest
@@ -241,7 +242,7 @@ public class ServiceControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(response);
-        Assertions.assertTrue(response.contains("Produit mit à jour avec succes"));
+        Assertions.assertTrue(response.contains("succes"));
     }
 
     /**************************** Test deleteProduct ****************************/
@@ -253,7 +254,7 @@ public class ServiceControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(response);
-        Assertions.assertTrue(response.contains("Le produit n'existe pas"));
+        Assertions.assertTrue(response.contains("Erreur"));
     }
     @Test
     public void postDeleteProductTest_With_GoodData() throws Exception {
@@ -263,56 +264,124 @@ public class ServiceControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(response);
-        Assertions.assertTrue(response.contains("Produit supprimé avec succes"));
+        Assertions.assertTrue(response.contains("succes"));
     }
 
-    /**************************** Test addSales ****************************/
+    /**************************** Test addSalesToProduct ****************************/
     @Test
-    public void postAddSales_With_WrongProductId() throws Exception {
+    public void postAddSalesToProduct_With_WrongProductId() throws Exception {
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("productId","-1");
         params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
         params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
         params.add("discount","50");
         params.add("tokenId","tokenId");
-        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSales")
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSalesToProduct")
                         .params(params))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(response);
-        Assertions.assertTrue(response.contains("Le produit n'existe pas"));
+        Assertions.assertTrue(response.contains("Erreur"));
     }
     @Test
-    public void postAddSales_With_discount_Sup100() throws Exception {
+    public void postAddSalesToProduct_With_discount_Sup100() throws Exception {
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("productId","1");
         params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
         params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
         params.add("discount","150");
         params.add("tokenId","tokenId");
-        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSales")
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSalesToProduct")
                         .params(params))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(response);
-        Assertions.assertTrue(response.contains("Promotion ajouté avec succes"));
+        Assertions.assertTrue(response.contains("succes"));
         Assertions.assertEquals(
                 100,
                 salesDaoTest.getOneSales(productsDaoTest.getProduct(1L).getSalesId()).getDiscount());
     }
     @Test
-    public void postAddSales_With_GoodData() throws Exception {
+    public void postAddSalesToProduct_With_GoodData() throws Exception {
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
         params.add("productId","1");
         params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
         params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
         params.add("discount","50");
         params.add("tokenId","tokenId");
-        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSales")
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSalesToProduct")
                         .params(params))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         System.out.println(response);
-        Assertions.assertTrue(response.contains("Promotion ajouté avec succes"));
+        Assertions.assertTrue(response.contains("succes"));
+    }
+
+    /**************************** Test addSalesToCat ****************************/
+    @Test
+    public void postAddSalesToCat_With_Wrong_catSales() throws Exception {
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("catSales","FAKE");
+        params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
+        params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
+        params.add("discount","50");
+        params.add("tokenId","tokenId");
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSalesToCat")
+                        .params(params))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Assertions.assertTrue(response.contains("Erreur"));
+    }
+
+    @Test
+    public void postAddSalesToCat_With_Wrong_all() throws Exception {
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("catSales","all");
+        params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
+        params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
+        params.add("discount","50");
+        params.add("tokenId","tokenId");
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSalesToCat")
+                        .params(params))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Assertions.assertTrue(response.contains("Erreur"));
+    }
+    @Test
+    public void postAddSalesToCat_With_Wrong_EmptyCat() throws Exception {
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("catSales","Textile");
+        params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
+        params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
+        params.add("discount","50");
+        params.add("tokenId","tokenId");
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSalesToCat")
+                        .params(params))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Assertions.assertTrue(response.contains("Erreur"));
+    }
+    @Test
+    public void postAddSalesToCat_With_GoodData() throws Exception {
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("catSales","Test_Multi");
+        params.add("onDate", LocalDate.now(ZoneId.of("Europe/Paris")).toString());
+        params.add("offDate",LocalDate.now(ZoneId.of("Europe/Paris")).plusDays(1).toString());
+        params.add("discount","50");
+        params.add("tokenId","tokenId");
+        String response = mockMvc.perform(MockMvcRequestBuilders.multipart("/postAddSalesToCat")
+                        .params(params))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(response);
+        Assertions.assertTrue(response.contains("succes"));
+        List<Products> productsUpdate = productsDaoTest.getProductsByCategoryName("Test_Multi");
+        for (Products p : productsUpdate){
+            Assertions.assertFalse(p.getSalesId()==null);
+            Assertions.assertEquals(p.getSalesId(),productsUpdate.get(1).getSalesId());
+        }
     }
 }

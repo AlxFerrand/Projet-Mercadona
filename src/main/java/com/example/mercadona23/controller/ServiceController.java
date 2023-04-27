@@ -1,7 +1,9 @@
 package com.example.mercadona23.controller;
 
+import com.example.mercadona23.daoService.CategoriesDao;
 import com.example.mercadona23.daoService.ProductsDao;
 import com.example.mercadona23.daoService.SalesDao;
+import com.example.mercadona23.model.Categories;
 import com.example.mercadona23.model.ConnectUser;
 import com.example.mercadona23.model.Products;
 import com.example.mercadona23.model.Sales;
@@ -21,7 +23,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class ServiceController {
@@ -36,6 +40,8 @@ public class ServiceController {
     UploadService uploadService;
     @Autowired
     SalesDao salesDao;
+    @Autowired
+    CategoriesDao categoriesDao;
 
     @GetMapping(value = "/uploadsFiles/{image}",produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getImages(@PathVariable("image") String imageName) throws IOException {
@@ -165,7 +171,7 @@ public class ServiceController {
             Products productToDelete = productsDao.getProduct(Long.valueOf(idProductToDelete));
             System.out.println(productToDelete);
         }catch (Exception e){
-            return "Le produit n'existe pas";
+            return "Erreur : Le produit n'existe pas";
         }
         File fileProduct = uploadService.getUploadsFilesByFileName(
                 productsDao.getProduct(Long.valueOf(idProductToDelete)).getPicture()
@@ -177,8 +183,8 @@ public class ServiceController {
         return "Produit supprimé avec succes";
     }
 
-    @PostMapping("/postAddSales")
-    public String postAddSales(@RequestParam("productId") String productId,
+    @PostMapping("/postAddSalesToProduct")
+    public String postAddSalesToProduct(@RequestParam("productId") String productId,
                                     @RequestParam("onDate") String onDate,
                                     @RequestParam("offDate") String offDate,
                                     @RequestParam("discount") int discount,
@@ -201,7 +207,7 @@ public class ServiceController {
         try{
             productToUpdate = productsDao.getProduct(Long.valueOf(productId));
         }catch (Exception e){
-            return "Le produit n'existe pas";
+            return "Erreur : Le produit n'existe pas";
         }
         Sales salesToAdd = new Sales(onDate,offDate,discount,productId);
         Sales salesAdd = salesDao.addSales(salesToAdd);
@@ -209,6 +215,56 @@ public class ServiceController {
         productToUpdate.setSalesId(salesAdd.getId());
         productsDao.updateProducts(productToUpdate);
         System.out.println(productToUpdate);
-        return "Promotion ajouté avec succes";
+        return "Promotion ajoutée avec succes";
+    }
+
+    @PostMapping("/postAddSalesToCat")
+    public String postAddSalesToCat(@RequestParam("catSales") String catSales,
+                               @RequestParam("onDate") String onDate,
+                               @RequestParam("offDate") String offDate,
+                               @RequestParam("discount") int discount,
+                               @RequestParam("tokenId") String tokenId
+    )
+    {
+        if (!loginService.isValidToken(tokenId)){
+            return "Erreur : Temps de connexion dépassé";
+        }
+        if (!(loginService.findTokenRoleByTokenId(tokenId).equals("admin"))){
+            return "Erreur : Vous n'etes pas autorisé à faire cette action";
+        }
+        if (discount > 100){
+            discount = 100;
+        }
+        if (discount < 0){
+            discount = 0;
+        }
+        if (catSales.equals("all")) {
+            return "Erreur : Veuillez selectionner une catégorie";
+        }
+        try{
+           Categories categoryChoos = categoriesDao.getCategory(catSales);
+        }catch (Exception e){
+            return "Erreur : La catégorie n'existe pas";
+        }
+
+        List<Products> productsToSalesList = productsDao.getProductsByCategoryName(catSales);
+        if (productsToSalesList.isEmpty()){
+            return "Erreur : Pas de produit disponible dans cette catégorie";
+        }
+        String productsId = "";
+        for (Products p : productsToSalesList){
+            if (productsId.equals("")){
+                productsId = p.getId().toString();
+            }else {
+                productsId = productsId+","+p.getId().toString();
+            }
+        }
+        Sales salesToAdd = new Sales(onDate,offDate,discount,productsId);
+        Sales salesAdd = salesDao.addSales(salesToAdd);
+        for (Products p : productsToSalesList){
+            p.setSalesId(salesAdd.getId());
+            productsDao.updateProducts(p);
+        }
+        return "Promotion ajoutée avec succes";
     }
 }

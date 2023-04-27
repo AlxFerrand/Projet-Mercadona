@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +121,7 @@ public class RouterController {
         model.addAttribute("categoriesList",categoriesDao.getCategories());
         return "adminPromo";
     }
-    @GetMapping("/getAddModale")
+    @GetMapping("/getAddProductModale")
     public String getAddModal (Model model, @RequestParam("tokenId") String tokenId){
         if (!loginService.isValidToken(tokenId)){
             return "home";
@@ -131,9 +130,9 @@ public class RouterController {
             return "home";
         }
         model.addAttribute("categoriesList",categoriesDao.getCategories());
-        return "modalAdd";
+        return "modalAddProduct";
     }
-    @GetMapping("/getUpdateModale/{productId}")
+    @GetMapping("/getUpdateProductModale/{productId}")
     public String getUpdateModal (Model model,
                                   @RequestParam("tokenId") String tokenId,
                                   @PathVariable("productId") String productId){
@@ -151,10 +150,10 @@ public class RouterController {
         }
         model.addAttribute("productToUpdate",productToUpdate);
         model.addAttribute("categoriesList",categoriesDao.getCategories());
-        return "modalUpdate";
+        return "modalUpdateProduct";
     }
 
-    @GetMapping("/getDeleteModale/{productId}")
+    @GetMapping("/getDeleteProductModale/{productId}")
     public String getDeleteModal (Model model,
                                   @RequestParam("tokenId") String tokenId,
                                   @PathVariable("productId") String productId){
@@ -171,10 +170,10 @@ public class RouterController {
             return "adminMenu";
         }
         model.addAttribute("productToDelete",productToDelete);
-        return "modalDelete";
+        return "modalDeleteProduct";
     }
-    @GetMapping("/getAddSalesModale/{productId}")
-    public String getAddModal (Model model,
+    @GetMapping("/getAddSalesToProductModale/{productId}")
+    public String getAddToProductModal (Model model,
                                @RequestParam("tokenId") String tokenId,
                                @PathVariable("productId") String productId)
     {
@@ -186,6 +185,19 @@ public class RouterController {
         }
         model.addAttribute("productId",productId);
         model.addAttribute("categoriesList",categoriesDao.getCategories());
-        return "modalAddSales";
+        return "modalAddSalesToProduct";
+    }
+    @GetMapping("/getAddSalesToCatModale")
+    public String getAddToCatModal (Model model,
+                               @RequestParam("tokenId") String tokenId)
+    {
+        if (!loginService.isValidToken(tokenId)){
+            return "home";
+        }
+        if (!(loginService.findTokenRoleByTokenId(tokenId).equals("admin"))){
+            return "home";
+        }
+        model.addAttribute("categoriesList",categoriesDao.getCategories());
+        return "modalAddSalesToCat";
     }
 }

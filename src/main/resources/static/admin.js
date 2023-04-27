@@ -70,7 +70,7 @@ function getProducts(){
                 divContent.innerHTML += xhrRouter.response
                 document.title = "Mercadona - Gestion Produits"
                 divTempContent = document.getElementById('tempContent')
-                document.getElementById('btnModalAdd').addEventListener('click', getModalAdd)
+                document.getElementById('btnModalAdd').addEventListener('click', getModalAddProduct)
                 history.pushState({page: 2}, "EspaceAdmin", "EspaceAdmin-Produits")
                 document.getElementById('btnFilter').addEventListener('click', getProducts)
                 catFilter = document.getElementById('catFilter')
@@ -103,6 +103,7 @@ function getPromo(){
                 divContent.innerHTML += xhrRouter.response
                 document.title = "Mercadona - Gestion Promotions"
                 divTempContent = document.getElementById('tempContent')
+                document.getElementById('btnModalAddToCat').addEventListener('click', getModalAddSalesToCat)
                 history.pushState({page: 3}, "EspaceAdmin", "EspaceAdmin-Promotions")
                 document.getElementById('btnFilter').addEventListener('click', getPromo)
                 catFilter = document.getElementById('catFilterPromo')
@@ -116,10 +117,10 @@ function getPromo(){
         }
     }
 }
-function getModalAdd(){
+function getModalAddProduct(){
     supModal()
     let xhrRouter = new XMLHttpRequest()
-    xhrRouter.open("GET","/getAddModale?tokenId="+tokenId)
+    xhrRouter.open("GET","/getAddProductModale?tokenId="+tokenId)
     xhrRouter.send()
     xhrRouter.onload=()=> {
         if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
@@ -160,10 +161,10 @@ function getModalAdd(){
         }
     }
 }
-function getModalUpdate(productId){
+function getModalUpdateProduct(productId){
     supModal()
     let xhrRouter = new XMLHttpRequest()
-    xhrRouter.open("GET","/getUpdateModale/"+productId+"?tokenId="+tokenId)
+    xhrRouter.open("GET","/getUpdateProductModale/"+productId+"?tokenId="+tokenId)
     xhrRouter.send()
     xhrRouter.onload=()=> {
         if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
@@ -203,10 +204,10 @@ function getModalUpdate(productId){
         }
     }
 }
-function getModalDelete(productId){
+function getModalDeleteProduct(productId){
     supModal()
     let xhrRouter = new XMLHttpRequest()
-    xhrRouter.open("GET","/getDeleteModale/"+productId+"?tokenId="+tokenId)
+    xhrRouter.open("GET","/getDeleteProductModale/"+productId+"?tokenId="+tokenId)
     xhrRouter.send()
     xhrRouter.onload=()=> {
         if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
@@ -246,10 +247,10 @@ function postDeleteProduct(){
     }
 }
 
-function getModalAddSales(productId){
+function getModalAddSalesToProduct(productId){
     supModal()
     let xhrRouter = new XMLHttpRequest()
-    xhrRouter.open("GET","/getAddSalesModale/"+productId+"?tokenId="+tokenId)
+    xhrRouter.open("GET","/getAddSalesToProductModale/"+productId+"?tokenId="+tokenId)
     xhrRouter.send()
     xhrRouter.onload=()=> {
         if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
@@ -277,7 +278,51 @@ function getModalAddSales(productId){
                             alert("connexion avec le serveur échouée")
                         }
                     }
-                    xhrService.open("POST", "/postAddSales?tokenId=" + tokenId)
+                    xhrService.open("POST", "/postAddSalesToProduct?tokenId=" + tokenId)
+                    xhrService.send(data)
+                })
+                document.getElementById('btnCancel').addEventListener('click', supModal)
+                document.querySelector('.shadowBox').addEventListener('click', supModal)
+                history.replaceState({page: 3}, "EspaceAdmin-Promotions", "EspaceAdmin-Promotions")
+            }
+        }else {
+            alert("connexion avec le serveur échouée")
+        }
+    }
+}
+
+function getModalAddSalesToCat(){
+    supModal()
+    let xhrRouter = new XMLHttpRequest()
+    xhrRouter.open("GET","/getAddSalesToCatModale?tokenId="+tokenId)
+    xhrRouter.send()
+    xhrRouter.onload=()=> {
+        if (xhrRouter.readyState == 4 && xhrRouter.status == 200) {
+            if (xhrRouter.responseText.startsWith("<!DOCTYPE html>")){
+                alert("Erreur : Temps de connexion dépassé")
+                location.replace("/")
+            }else {
+                divModal.innerHTML += xhrRouter.response
+                divTempModal = document.getElementById('tempModal')
+                let formAddSales = document.getElementById('formAddSales')
+                formAddSales.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const xhrService = new XMLHttpRequest()
+                    let data = new FormData(formAddSales)
+                    xhrService.onload = () => {
+                        if (xhrService.readyState == 4 && xhrService.status == 200) {
+                            if (xhrService.responseText.startsWith("Erreur", 0)) {
+                                alert(xhrService.responseText)
+                            } else {
+                                alert(xhrService.responseText)
+                                supModal()
+                                getPromo()
+                            }
+                        } else {
+                            alert("connexion avec le serveur échouée")
+                        }
+                    }
+                    xhrService.open("POST", "/postAddSalesToCat?tokenId=" + tokenId)
                     xhrService.send(data)
                 })
                 document.getElementById('btnCancel').addEventListener('click', supModal)

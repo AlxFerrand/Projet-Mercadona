@@ -55,7 +55,7 @@ public class GeneratorServiceTest {
     }
     @Test
     public void generateArticleTest_With_ProductSalesId_Fake(){
-        PRODUCT.setSalesId(28L);
+        PRODUCT.setSalesId(28456978L);
         Assertions.assertFalse(generatorServiceTest.generateArticle(PRODUCT)==null);
         Articles a = generatorServiceTest.generateArticle(PRODUCT);
         Assertions.assertTrue(a.getDiscount()==0);

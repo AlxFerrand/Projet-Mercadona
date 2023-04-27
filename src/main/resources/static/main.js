@@ -6,6 +6,7 @@ let btnNavHome = document.getElementById('nav-home')
 let modalConnexion = document.getElementById('modalConnexion')
 let shadowBoxConnexion = document.querySelector('.shadowBox.connexion')
 let btnFormConnexion = document.getElementById('btnFormConnexion')
+let btnConnectAdmin = document.getElementById('btnConnexionAdmin')
 let btnFilter
 let catFilter
 let catFilterValue
@@ -69,13 +70,18 @@ function connexion(){
         }
     }
 }
-
+/*Présent pour test par client A supprimer*/
+function connexionAdmin(){
+    document.getElementById('identifiant').value = "johndupont@email.fr"
+    document.getElementById('password').value = "passJohnHash"
+}
 function getAdminArea(){
     location.replace("/adminArea?tokenId="+token["tokenId"]+"&userName="+document.getElementById('identifiant').value)
 }
 
 
 btnFormConnexion.addEventListener('click',connexion)
+btnConnectAdmin.addEventListener('click',connexionAdmin)
 shadowBoxConnexion.addEventListener('click',modalConnexionOff)
 btnCatalogue.addEventListener('click',addCatalogue)
 btnConnexion.addEventListener('click',modalConnexionOn)
